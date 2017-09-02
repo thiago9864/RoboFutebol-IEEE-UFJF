@@ -1,0 +1,18 @@
+Push Button 1 wired to pin -1 with values D, M
+Push Button 2 wired to pin -1 with values D, M
+Slide Switch 1 wired to pin -1 with value D
+Slide Switch 2 wired to pin -1 with value D
+Slide Switch 3 wired to pin -1 with value D
+Slide Switch 4 wired to pin -1 with value D
+Piezo Speaker 1 wired to pin -1 
+Piezo Speaker 2 wired to pin -1 
+Coloured LED 1 wired to pin 10 with values D, R
+Coloured LED 2 wired to pin -1 with values D, R
+Coloured LED 3 wired to pin -1 with values D, R
+Coloured LED 4 wired to pin -1 with values D, R
+Coloured LED 5 wired to pin -1 with values D, R
+Coloured LED 6 wired to pin -1 with values D, R
+Analog Slider 1 wired to pin -1 
+Analog Slider 2 wired to pin -1 
+USB Serial 1 wired to pins 1 , 0 with value 9600
+Software Serial 1 wired to pins -1 , -1 with value 300
