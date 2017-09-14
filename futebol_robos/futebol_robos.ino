@@ -20,6 +20,39 @@ void setup() {
 	
 }
 
+int converteHex(char hexValue[]){
+  byte tens = (hexValue[0] < '9') ? hexValue[0] - '0' : hexValue[0] - '7';
+  byte ones = (hexValue[1] < '9') ? hexValue[1] - '0' : hexValue[1] - '7';
+  int ret = (16 * tens) + ones;
+  return ret;
+}
+
+bool validaComando(char c, char vetX[], char vetY[]){
+  int v = 0;
+  if(c >= 'a' && c <= 'z'){
+    v++;
+  }
+  if(vetX[0] >= '0' && vetX[0] <= '9' || vetX[0] >= 'A' && vetX[0] <= 'F'){
+    v++;
+  }
+  if(vetX[1] >= '0' && vetX[1] <= 'F' || vetX[1] >= 'A' && vetX[1] <= 'F'){
+    v++;
+  }
+  if(vetY[0] >= '0' && vetY[0] <= 'F' || vetY[0] >= 'A' && vetY[0] <= 'F'){
+    v++;
+  }
+  if(vetY[1] >= '0' && vetY[1] <= 'F' || vetY[1] >= 'A' && vetY[1] <= 'F'){
+    v++;
+  }
+
+  if(v == 5){
+    return true;
+  }
+
+  return false;
+  
+}
+
 /**
  * Controle dos motores
  */
@@ -76,48 +109,66 @@ void pararMotor(int motor){
  */
 
 void loop() {
-	
-	char caracter = 'X';
+  // put your main code here, to run repeatedly:
 
-  if(Serial.available() > 0){
+  char controle;
+  char vetX[2], vetY[2];
+  bool comandoOK = false;
 
-    //le do stream se estiver disponivel
-    caracter = Serial.read();
+  if(Serial.available()){
+    
+    controle = (char)Serial.read();
+    delay(5);
+    vetX[0] = (char)Serial.read();
+    delay(5);
+    vetX[1] = (char)Serial.read();
+    delay(5);
+    vetY[0] = (char)Serial.read();
+    delay(5);
+    vetY[1] = (char)Serial.read();
+    delay(5);
+    
+    if((char)Serial.read() == '|' && validaComando(controle, vetX, vetY)){
+      //leu corretamente
+      Serial.println("ok");
+      comandoOK = true;
+    } else {
+      Serial.println("erro");
+    }
+    }
 
-    //debug
-    Serial.println(caracter);
+    if(comandoOK){
+      Serial.println("Comando Recebido: c = " + String(controle) +", x = "+ String(converteHex(vetX)) +", y = "+ String(converteHex(vetY)));
 
-    //decide que saidas ativar
-    switch(caracter){
+      //decide que saidas ativar
+    switch(controle){
       
-      case 'E': // esquerda
+      case 'e': // esquerda
         rodarMotorSentidoHorario(1);
         rodarMotorSentidoHorario(2);
       break;
       
-      case 'D': //direita
+      case 'd': //direita
         rodarMotorSentidoAntiHorario(1);
         rodarMotorSentidoAntiHorario(2);
       break;
       
-      case 'F': //frente
+      case 'f': //frente
         rodarMotorSentidoHorario(1);
         rodarMotorSentidoAntiHorario(2);
       break;
       
-      case 'R': //reverso
+      case 'r': //reverso
         rodarMotorSentidoAntiHorario(1);
         rodarMotorSentidoHorario(2);
       break;
       
-      case 'P': //parar
+      case 'p': //parar
         pararMotor(0);
       break;
 
     }
     
-  }
-	
-	delay(10);
+    }
+    
 }
-
